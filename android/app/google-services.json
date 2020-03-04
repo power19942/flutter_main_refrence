@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "911517724601",
+    "firebase_url": "https://react-slack-1d57f.firebaseio.com",
+    "project_id": "react-slack-1d57f",
+    "storage_bucket": "react-slack-1d57f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911517724601:android:e66ed7b4e70d49ace39068",
+        "android_client_info": {
+          "package_name": "com.example.time_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911517724601-sl3turgvcv3dlvaeri2lpf1pi0pogi19.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.time_tracker",
+            "certificate_hash": "d39ccf579bb481854588cb3ad652acd97c2003de"
+          }
+        },
+        {
+          "client_id": "911517724601-67s1nk2nbnrt2mdto4038bf0a88h6chh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3HbAUQpvO8Vas8t-wHdOH6ZxxPjbN8PQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911517724601-67s1nk2nbnrt2mdto4038bf0a88h6chh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
