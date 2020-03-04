@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker/app/sign_in/sign_in_page.dart';
+import 'package:time_tracker/app/landing_page.dart';
+import 'package:time_tracker/services/auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +11,9 @@ class MyApp extends StatelessWidget {
       title: 'Tracker App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.indigo),
-      home: SignInPage(),
+      home: LandingPage(
+        auth: Auth(),
+      ),
     );
   }
 }
