@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import '../services/auth.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({@required this.onSignout, @required this.auth});
+  HomePage({@required this.auth});
 
   final AuthBase auth;
 
-  final VoidCallback onSignout;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,6 @@ class HomePage extends StatelessWidget {
   Future<void> _signout() async {
     try {
       await auth.signOut();
-      onSignout();
     } catch (e) {
       print(e.toString());
     }
