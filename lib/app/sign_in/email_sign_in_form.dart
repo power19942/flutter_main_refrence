@@ -1,16 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker/app/sign_in/vakidators.dart';
 import 'package:time_tracker/common_widgets/form_submit_buttion.dart';
 import 'package:time_tracker/common_widgets/platform_alert_dialog.dart';
 import 'package:time_tracker/services/auth.dart';
-import 'package:time_tracker/services/auth_provider.dart';
 
 enum EmailSignInFormType { signIn, register }
 
 class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
-
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -36,7 +35,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       _isLoading = true;
     });
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context);
       if (_formType == EmailSignInFormType.signIn) {
         await auth.signInWithEmailAndPassword(_email, _password);
       } else {
