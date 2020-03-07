@@ -5,18 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/app/sign_in/vakidators.dart';
 import 'package:time_tracker/common_widgets/form_submit_buttion.dart';
-import 'package:time_tracker/common_widgets/platform_alert_dialog.dart';
 import 'package:time_tracker/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker/services/auth.dart';
 
-enum EmailSignInFormType { signIn, register }
+import 'email_sign_in_model.dart';
 
-class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
+
+class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidators {
   @override
-  _EmailSignInFormState createState() => _EmailSignInFormState();
+  _EmailSignInFormStatefulState createState() => _EmailSignInFormStatefulState();
 }
 
-class _EmailSignInFormState extends State<EmailSignInForm> {
+class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
@@ -40,7 +40,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     _passwordFocusNode.dispose();
   }
 
-  void _submit() async {
+  Future<void> _submit() async {
     setState(() {
       _submitted = true;
       _isLoading = true;
