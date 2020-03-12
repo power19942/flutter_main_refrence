@@ -5,7 +5,6 @@ import 'package:time_tracker/services/auth.dart';
 
 class SignInManager {
   SignInManager({@required this.auth, @required this.isLoading});
-
   final AuthBase auth;
   final ValueNotifier<bool> isLoading;
 
@@ -19,15 +18,9 @@ class SignInManager {
     }
   }
 
-  Future<User> signInAnonymously() async {
-    return _signIn(auth.signInAnonymously);
-  }
+  Future<User> signInAnonymously() async => await _signIn(auth.signInAnonymously);
 
-  Future<User> signInWithGoogle() async {
-    return _signIn(auth.signInWithGoogle);
-  }
+  Future<User> signInWithGoogle() async => await _signIn(auth.signInWithGoogle);
 
-  Future<User> signInWithFacebook() async {
-    return _signIn(auth.signInWithFacebook);
-  }
+  Future<User> signInWithFacebook() async => await _signIn(auth.signInWithFacebook);
 }

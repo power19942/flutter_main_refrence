@@ -1,15 +1,15 @@
-import 'package:time_tracker/app/sign_in/vakidators.dart';
+import 'package:time_tracker/app/sign_in/validators.dart';
 
 enum EmailSignInFormType { signIn, register }
 
 class EmailSignInModel with EmailAndPasswordValidators {
-  EmailSignInModel(
-      {this.email = '',
-      this.password = '',
-      this.formType = EmailSignInFormType.signIn,
-      this.isLoading = false,
-      this.submitted = false});
-
+  EmailSignInModel({
+    this.email = '',
+    this.password = '',
+    this.formType = EmailSignInFormType.signIn,
+    this.isLoading = false,
+    this.submitted = false,
+  });
   final String email;
   final String password;
   final EmailSignInFormType formType;
@@ -24,8 +24,14 @@ class EmailSignInModel with EmailAndPasswordValidators {
 
   String get secondaryButtonText {
     return formType == EmailSignInFormType.signIn
-        ? 'Need an account? Segister'
+        ? 'Need an account? Register'
         : 'Have an account? Sign in';
+  }
+
+  bool get canSubmit {
+    return emailValidator.isValid(email) &&
+        passwordValidator.isValid(password) &&
+        !isLoading;
   }
 
   String get passwordErrorText {
@@ -38,18 +44,13 @@ class EmailSignInModel with EmailAndPasswordValidators {
     return showErrorText ? invalidEmailErrorText : null;
   }
 
-  bool get canSubmit {
-    return emailValidator.isValid(email) &&
-        passwordValidator.isValid(password) &&
-        !isLoading;
-  }
-
-  EmailSignInModel copyWith(
-      {String email,
-      String password,
-      EmailSignInFormType formType,
-      bool isLoading,
-      bool submitted}) {
+  EmailSignInModel copyWith({
+    String email,
+    String password,
+    EmailSignInFormType formType,
+    bool isLoading,
+    bool submitted,
+  }) {
     return EmailSignInModel(
       email: email ?? this.email,
       password: password ?? this.password,

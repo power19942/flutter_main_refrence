@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:time_tracker/app/home/models/job.dart';
 import 'package:time_tracker/common_widgets/platform_alert_dialog.dart';
 import 'package:time_tracker/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker/services/database.dart';
 
 class EditJobPage extends StatefulWidget {
-  const EditJobPage({@required this.database, this.job});
-
+  const EditJobPage({Key key, @required this.database, this.job})
+      : super(key: key);
   final Database database;
   final Job job;
 
-  static Future<void> show(BuildContext context, {Job job}) async {
-    final database = Provider.of<Database>(context);
-
-    await Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => EditJobPage(
-              database: database,
-              job: job,
-            ),
-        fullscreenDialog: true));
+  static Future<void> show(
+    BuildContext context, {
+    Database database,
+    Job job,
+  }) async {
+    await Navigator.of(context,rootNavigator: true).push(
+      MaterialPageRoute(
+        builder: (context) => EditJobPage(database: database, job: job),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override
@@ -29,6 +30,7 @@ class EditJobPage extends StatefulWidget {
 
 class _EditJobPageState extends State<EditJobPage> {
   final _formKey = GlobalKey<FormState>();
+
   String _name;
   int _ratePerHour;
 
@@ -40,8 +42,6 @@ class _EditJobPageState extends State<EditJobPage> {
       _ratePerHour = widget.job.ratePerHour;
     }
   }
-
-  String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
   bool _validateAndSaveForm() {
     final form = _formKey.currentState;
@@ -63,7 +63,7 @@ class _EditJobPageState extends State<EditJobPage> {
         if (allNames.contains(_name)) {
           PlatformAlertDialog(
             title: 'Name already used',
-            content: 'Please choose a diffrent job name',
+            content: 'Please choose a different job name',
             defaultActionText: 'OK',
           ).show(context);
         } else {
@@ -74,7 +74,7 @@ class _EditJobPageState extends State<EditJobPage> {
         }
       } on PlatformException catch (e) {
         PlatformExceptionAlertDialog(
-          title: 'Operation faild',
+          title: 'Operation failed',
           exception: e,
         ).show(context);
       }
@@ -85,7 +85,7 @@ class _EditJobPageState extends State<EditJobPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
+        elevation: 2.0,
         title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
         actions: <Widget>[
           FlatButton(
@@ -94,7 +94,7 @@ class _EditJobPageState extends State<EditJobPage> {
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
             onPressed: _submit,
-          )
+          ),
         ],
       ),
       body: _buildContents(),
@@ -105,16 +105,18 @@ class _EditJobPageState extends State<EditJobPage> {
   Widget _buildContents() {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Card(
-          child:
-              Padding(padding: const EdgeInsets.all(16), child: _buildForm()),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: _buildForm(),
+          ),
         ),
       ),
     );
   }
 
-  _buildForm() {
+  Widget _buildForm() {
     return Form(
       key: _formKey,
       child: Column(
@@ -127,18 +129,20 @@ class _EditJobPageState extends State<EditJobPage> {
   List<Widget> _buildFormChildren() {
     return [
       TextFormField(
-        initialValue: _name,
-        validator: (value) => value.isNotEmpty ? null : 'name cannot be empty',
-        onSaved: (value) => _name = value,
         decoration: InputDecoration(labelText: 'Job name'),
+        initialValue: _name,
+        validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
+        onSaved: (value) => _name = value,
       ),
       TextFormField(
-        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
-        onSaved: (value) => _ratePerHour = int.tryParse(value) ?? 0,
         decoration: InputDecoration(labelText: 'Rate per hour'),
-        keyboardType:
-            TextInputType.numberWithOptions(signed: false, decimal: false),
-      )
+        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
+        keyboardType: TextInputType.numberWithOptions(
+          signed: false,
+          decimal: false,
+        ),
+        onSaved: (value) => _ratePerHour = int.tryParse(value) ?? 0,
+      ),
     ];
   }
 }
