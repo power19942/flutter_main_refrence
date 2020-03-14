@@ -1,18 +1,20 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker/app/sign_in/email_sign_in_model.dart';
 import 'package:time_tracker/app/sign_in/validators.dart';
 import 'package:time_tracker/common_widgets/form_submit_button.dart';
-import 'package:time_tracker/common_widgets/platform_alert_dialog.dart';
 import 'package:time_tracker/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:time_tracker/services/auth.dart';
 import 'package:flutter/services.dart';
 
-class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidators {
+class EmailSignInFormStateful extends StatefulWidget
+    with EmailAndPasswordValidators {
+
+  EmailSignInFormStateful({this.onSignIn});
+  VoidCallback onSignIn;
   @override
-  _EmailSignInFormStatefulState createState() => _EmailSignInFormStatefulState();
+  _EmailSignInFormStatefulState createState() =>
+      _EmailSignInFormStatefulState();
 }
 
 class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
@@ -48,7 +50,8 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
       } else {
         await auth.createUserWithEmailAndPassword(_email, _password);
       }
-      Navigator.of(context).pop();
+      if(widget.onSignIn != null)
+        widget.onSignIn();
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Sign in failed',
@@ -112,6 +115,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
     bool showErrorText =
         _submitted && !widget.passwordValidator.isValid(_password);
     return TextField(
+      key: Key('email'),
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
@@ -129,6 +133,7 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
   TextField _buildEmailTextField() {
     bool showErrorText = _submitted && !widget.emailValidator.isValid(_email);
     return TextField(
+      key: Key('password'),
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
